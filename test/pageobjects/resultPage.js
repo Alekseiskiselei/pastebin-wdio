@@ -1,4 +1,6 @@
-class ResultPage {
+const Page = require('./page');
+
+class ResultPage extends Page {
   get showPageTitle() {
     return $('//div[@class="info-top"]');
   }

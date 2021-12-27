@@ -31,8 +31,8 @@ class StartPage extends Page {
     return $('#postform-name');
   }
 
-  open() {
-    super.open('https://pastebin.com');
+  async open() {
+    await super.open('https://pastebin.com');
   }
 }
 

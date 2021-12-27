@@ -13,33 +13,29 @@ describe('Testing functionality of web application', async function () {
   const pasteNameText = 'how to gain dominance among developers';
 
   before(async function () {
-    
-
     await startPage.open();
-    await browser.maximizeWindow();
-    await startPage.findTextArea.addValue(newPasteText);
-    await startPage.chooseHighlightningBtn.click();
-    await startPage.selectBashBtn.click();
-    await startPage.toggleSyntaxHighlightning.click();
-    await startPage.choosePasteExpirationBtn.click();
-    await startPage.select10MinutesExporationBtn.click();
-    await startPage.findPasteNameArea.addValue(pasteNameText);
-    await startPage.findPasteNameArea.keys('Enter');
+    await startPage.enterText(startPage.findTextArea, newPasteText);
+    await startPage.selectDropDownList(startPage.chooseHighlightningBtn, startPage.selectBashBtn);
+    await startPage.click(startPage.toggleSyntaxHighlightning);
+    await startPage.selectDropDownList(
+      startPage.choosePasteExpirationBtn,
+      startPage.select10MinutesExporationBtn
+    );
+    await startPage.enterText(startPage.findPasteNameArea, pasteNameText);
   });
 
   it('should browser`s page name matches Paste`s name', async function () {
-    const title = await resultPage.showPageTitle.getText();
+    const title = await resultPage.findTextToCompare(resultPage.showPageTitle);
     expect(title).to.be.equal('how to gain dominance among developers');
   });
 
   it('should the syntax be highlighted for Bash', async function () {
-    const highlightedSyntax = await resultPage.showTextHighlightning.getText();
+    const highlightedSyntax = await resultPage.findTextToCompare(resultPage.showTextHighlightning);
     expect(highlightedSyntax).to.be.equal('Bash');
   });
 
   it('should final code conform initial code', async function () {
-    const initialText = await resultPage.findRowTextArea.getText();
-    const finalText = await resultPage.findCompleteTextArea.getText();
-    expect(initialText).to.be.include(finalText);
+    const finalText = await resultPage.findTextToCompare(resultPage.findCompleteTextArea);
+    expect(newPasteText).to.be.include(finalText);
   });
 });
